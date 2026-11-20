@@ -1,7 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert");
 
-const { matches } = require("../lib/store");
+const { matches, edit } = require("../lib/store");
 
 const notes = [
   { id: 1, text: "buy milk" },
@@ -23,4 +23,10 @@ test("search finds a single containing note", () => {
 test("search returns nothing when no note contains the term", () => {
   const result = matches(notes, "xyz");
   assert.strictEqual(result.length, 0);
+});
+
+test("edit returns false when the note id does not exist", () => {
+  // NaN is what Number("abc") gives for a bad CLI id; no stored note has it,
+  // so edit must not write anything.
+  assert.strictEqual(edit(NaN, "new text"), false);
 });
