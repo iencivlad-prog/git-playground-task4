@@ -25,6 +25,15 @@ test("search returns nothing when no note contains the term", () => {
   assert.strictEqual(result.length, 0);
 });
 
+test("search ignores letter case", () => {
+  const result = matches(notes, "MILK");
+  assert.strictEqual(result.length, 2);
+  assert.deepStrictEqual(
+    result.map((n) => n.id),
+    [1, 3],
+  );
+});
+
 test("edit returns false when the note id does not exist", () => {
   // NaN is what Number("abc") gives for a bad CLI id; no stored note has it,
   // so edit must not write anything.
